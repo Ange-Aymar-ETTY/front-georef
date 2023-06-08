@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <div class="btn-head">
+    <button *ngIf="isListSelected" (click)="isListSelected = false">
+      <span><i class="fas fa-plus"></i> &nbsp; Ajouter</span>
+    </button>
+    <button *ngIf="!isListSelected" (click)="backToList()">
+      <span><i class="fas fa-arrow-circle-left"></i>&nbsp; Retour</span>
+    </button>
+  </div>
+
+  <div [ngClass]="{'hidden': !isListSelected}">
+    <app-table #table
+      [mode]="2"
+      [columnDefs]="columnDefs"
+      [columnSort]="columnSort"
+      [isUpdated]="true"
+      [isDeleted]="true"
+      (dataSelected)="getSelectedData($event)">
+    </app-table>
+  </div>
+
+  <div class="form-container" [ngClass]="isListSelected ? 'hidden' : 'show'" [formGroup]='userForm'>
+    <div class="form-header">
+      <span>Ajout d'un nouvel agent</span>
+    </div>
+    <div class="form-content">
+      <div class="input-fields">
+        <span>Nom & Prénoms </span>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Nom & Prénoms" formControlName="nom_prenoms" oninput="this.value = this.value.toUpperCase()">
+        </mat-form-field>
+        <app-error-manager [formCtrl]="userForm.get('nom_prenoms')" [validationMessage]="validationMessages.general">
+        </app-error-manager>
+      </div>
+
+      <div class="input-fields">
+        <span>Email</span>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+        <app-error-manager [formCtrl]="userForm.get('email')" [validationMessage]="validationMessages.email">
+        </app-error-manager>
+      </div>
+
+      <div class="input-fields">
+        <span>Directions</span>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Directions" formControlName="directions" multiple>
+            <mat-option *ngFor="let item of listDrs" [value]="item.libelle">{{item.code}} - {{item.libelle}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <app-error-manager [formCtrl]="userForm.get('directions')" [validationMessage]="validationMessages.general">
+        </app-error-manager>
+      </div>
+
+      <div class="form-check form-switch text-center">
+        <input class="form-check-input" type="checkbox" id="check" formControlName="check" (change)="checkChange($event)">
+        <label class="form-check-label" for="check">Toutes les directions</label>
+      </div>
+
+      <div class="btn-container">
+        <button *ngIf="!isUserEdited" [disabled]='!userForm.valid' mat-raised-button color="primary" (click)='createUser()'>Valider</button>
+        <button *ngIf="isUserEdited" [disabled]='!userForm.valid' mat-raised-button color="primary" (click)='editUser()'>Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>

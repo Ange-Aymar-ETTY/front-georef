@@ -1,0 +1,54 @@
+<div class="export-container">
+  <ng-container>
+    <div class="content" [hidden]="!isForm" >
+      <div class="text-link">
+        <span (click)="backTo()"><i class="fas fa-history"></i> Historique des imports </span>
+      </div>
+      <app-import
+        [service]="'upload'"
+        [filePath]="'template_export_coordonnees.xlsx'"
+        [extension]="['xlsx']"
+        [schema]="schema"
+        (dataOutput)="getDataOutput($event)">
+        <!-- <form>
+          <div class="form-content">
+            <div class="input-fields">
+              <mat-form-field appearance="outline">
+                <mat-label>Libelle</mat-label>
+                <input matInput placeholder="Exple.: Branchement xxxxxx" formControlName="libelle">
+              </mat-form-field>
+              <app-error-manager [formCtrl]="importForm.get('libelle')" [validationMessage]="validationMessages.general">
+              </app-error-manager>
+            </div>
+          </div>
+        </form> -->
+      </app-import>
+    </div>
+  </ng-container>
+
+  <ng-container>
+    <div class="content w-100 py-0 px-5" [hidden]="isForm">
+      <div class="text-link">
+        <span (click)="backTo()"><i class="fas fa-arrow-left"></i> Retour à l'importation </span>
+      </div>
+      <div class="btn-right" *ngIf="dataSelect?.statut == 1">
+        <button class="bttn btn-add" title="Télécharger" (click)="downloadFile()">
+          <i class="fa fa-download"></i>
+        </button>
+        <button class="bttn btn-update" title="Envoyer à un agent" (click)="opneShareForm()">
+          <i class="fas fa-share-alt"></i>
+        </button>
+      </div>
+      <app-table
+        #dataTable
+        [columnDefs]="columnDefs"
+        [columnSort]="columnSort"
+        [isSelectable]="true"
+        [service]="'list/demandes'"
+        (dataSelected)="getSelectedData($event)">
+      </app-table>
+
+      <small class="">* L'historique des importations a une durée de 30 jours. Après cela, les données seront effacées.</small>
+    </div>
+  </ng-container>
+</div>

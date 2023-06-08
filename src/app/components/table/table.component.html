@@ -1,0 +1,69 @@
+<div class="main-container">
+  <div class="example-container">
+    <div class="example-table-container">
+      <div class="header-area">
+        <div class="search">
+          <mat-form-field appearance="outline">
+            <mat-label>Recherche</mat-label>
+            <input matInput [formControl]="search" (keyup)="applyFilter($event)" type="text">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="button-container">
+          <button *ngIf="allowExport" title="Exporter" [disabled]="dataExport.length == 0" class="btn btn-export"
+            (click)="exportTable()">
+            <i class="fas fa-download"></i> Exporter
+          </button>
+
+          <button *ngIf="mode == 1" class="btn btn-refresh" title="Rafraîchir" (click)="refresh()">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
+      </div>
+      <table mat-table [dataSource]="Data" class="example-table" matSort matSortActive={{columnSort}}
+        matSortDisableClear matSortDirection={{columnDirection}}>
+
+        <ng-container *ngFor="let col of columnDefs; let i = index">
+          <!-- Column -->
+          <ng-container matColumnDef={{col.title}}>
+            <th class="table-head" mat-header-cell *matHeaderCellDef mat-sort-header>{{col.libelle}}</th>
+            <td class="table-row" mat-cell *matCellDef="let row">
+              <ng-container *ngIf="col.type == 'text'">
+                <span> {{row[col.title] || "N/A" }} </span>
+              </ng-container>
+              <ng-container *ngIf="col.type == 'date'">
+                <span class=""> {{ row[col.title] | date: 'dd/MM/yyyy - HH:mm:ss' || "N/A" }} </span>
+              </ng-container>
+              <ng-container *ngIf="col.type == 'actions'">
+                <div class="actions">
+                  <i class="fas fa-pen" *ngIf="isUpdated" (click)="takeAction(row, 'edit')"></i>
+                  <i class="fas fa-trash-alt" *ngIf="isDeleted" (click)="takeAction(row, 'delete')"></i>
+                </div>
+              </ng-container>
+            </td>
+          </ng-container>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [ngClass]="{'selectable': isSelectable, 'active': row.active}"
+          (click)=" isSelectable ? selectRow(row) : null">
+        </tr>
+      </table>
+      <mat-paginator [length]="resultsLength" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+
+      <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+          Une Erreur est survenue. Réessayez dans quelques instants.
+        </div>
+      </div>
+      <div class="text-center" *ngIf="resultsLength == 0">
+        <div class="example-rate-limit-reached">
+          Aucune donnée trouvée
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

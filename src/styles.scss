@@ -1,0 +1,264 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~leaflet/dist/leaflet.css";
+@import "./app/theme/variables.scss";
+
+$color-overlay: rgba(109, 102, 91, 0.7);
+@import "~ngx-smart-modal/ngx-smart-modal";
+// Code de couleur
+$color-degrade-orange: -webkit-linear-gradient(0deg, #f0a020 30%, #ee8422 70%);
+$color-degrade-orange2: -webkit-linear-gradient(0deg, #ee8422 20%, #f07f09 100%);
+$color-degrade-vert: -webkit-linear-gradient(0deg, #1fb259 40%, #4fd886 100%);
+$color-degrade-vert2: -webkit-linear-gradient(0deg, #1fb259 10%, #4fd886 100%);
+$color-degrade-light: -webkit-linear-gradient(0deg, #dedede 40%, #fefefe 100%);
+$color-degrade-light2: -webkit-linear-gradient(0deg, #fefefe 40%, #f5f5f5 100%);
+$color-degrade-light3: -webkit-linear-gradient(0deg, #fefefe 40%, #dedede 100%);
+$color-degrade-light4: -webkit-radial-gradient(circle, #fefefe 0%, #dedede 100%);
+$orange: #f0a020;
+$orange-2: #ee8422;
+$vert: #1fb259;
+$vert-2: #4fd886;
+
+body {
+  height: 100%;
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Exo", "arial", sans-serif;
+}
+
+@font-face {
+  font-family: Exo;
+  src: url("/assets/fonts/Exo/Exo-Regular.ttf");
+}
+
+.full-page-container {
+  height: calc(100vh - 114px);
+}
+
+app-root {
+  min-height: 100%;
+  // overflow: hidden;
+  display: block;
+  position: relative;
+}
+
+// Cluster Style on Map
+.clusterClass {
+  .cluster-container {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 30px rgba(var(--ion-color-dark-rgb), 0.3);
+
+    &.cluster-agences {
+      border: 2px solid rgba(255, 179, 135, 1);
+      background-color: rgba(255, 166, 114, 0.45);
+      color: var(--ion-color-dark-rgbt);
+    }
+
+    span {
+      // color: var(--ion-color-light);
+      font-weight: bold;
+      font-size: small;
+    }
+  }
+}
+
+.btn-primary {
+  background: $color-degrade-orange !important;
+  color: white !important;
+  border: 1px solid #dedede !important;
+  transition: none !important;
+  padding: 0px 5px 0px 5px !important;
+  margin-top: 10px !important;
+}
+
+.btn-primary:hover {
+  background: $orange-2 !important;
+}
+
+.btn-success {
+  background: $color-degrade-vert !important;
+  color: white !important;
+  border: 1px solid #dedede !important;
+  transition: none !important;
+  padding: 0px 5px 0px 5px !important;
+  margin-top: 10px !important;
+}
+
+.btn-success:hover {
+  background: $vert !important;
+}
+
+.btn-danger {
+  background: $color-degrade-light !important;
+  color: #888 !important;
+  border: 1px solid #dedede !important;
+  transition: none !important;
+  padding: 0px 5px 0px 5px !important;
+  margin-top: 10px !important;
+}
+
+.btn-danger:hover {
+  background: #eeeeee !important;
+  box-shadow: 0px 0px 3px #cdcdcd !important;
+}
+
+//loader style
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+  background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cdcdcd;
+  outline: 1px solid #f5f5f5;
+}
+
+.toast-top-center {
+  top: 50px !important;
+}
+
+// Marker PopUp on Map
+.markerPopupClass {
+  .leaflet-popup-content-wrapper {
+    width: 320px;
+
+    .popup-header {
+      display: flex;
+      border-bottom: 2px solid grey;
+      align-items: center;
+
+      h4 {
+        margin: 0px;
+      }
+
+      i {
+        font-size: 16px;
+        color: green;
+        margin-left: auto;
+      }
+    }
+
+    .popup-content {
+      margin-top: 10px;
+
+      .item {
+        display: flex;
+        // justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font: 14px;
+
+        &:last-child {
+          margin-bottom: 0px;
+        }
+
+        span {
+          height: 20px;
+          font-size: 14px;
+
+          &.text {
+            flex: 1 1 65%;
+            width: 8vw;
+            margin-left: 10px;
+            font-size: 14px;
+          }
+
+          b {
+            flex: 1 1 25%;
+            margin-left: auto;
+          }
+        }
+
+        .bullet-warning {
+          height: 20px;
+          width: 20px;
+          border-radius: 50px;
+          background: var(--ion-color-secondary);
+          box-shadow: 0 1px 10px rgba(0, 0, 0, 0.04),
+            0 1px 1px rgba(0, 0, 0, 0.04);
+          border: 1px solid lightgray;
+        }
+
+        .bullet-danger {
+          height: 20px;
+          width: 20px;
+          border-radius: 50px;
+          background: var(--ion-color-tertiary-shade);
+          box-shadow: 0 1px 10px rgba(0, 0, 0, 0.04),
+            0 1px 1px rgba(0, 0, 0, 0.04);
+          border: 1px solid lightgray;
+        }
+
+        .bullet-info {
+          height: 20px;
+          width: 20px;
+          border-radius: 50px;
+          background: #327dcb;
+          box-shadow: 0 1px 10px rgba(0, 0, 0, 0.04),
+            0 1px 1px rgba(0, 0, 0, 0.04);
+          border: 1px solid lightgrey;
+        }
+      }
+    }
+  }
+
+  .leaflet-popup-close-button {
+    font-size: 16px;
+  }
+}
+
+.leaflet-tooltip-top {
+  margin-top: -43px !important;
+  text-align: center;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  .input-fields {
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 10px;
+
+      ::ng-deep {
+        .mat-form-field-wrapper {
+          padding-bottom: 0px !important;
+          margin: 0 !important;
+        }
+      }
+    }
+  }
+}

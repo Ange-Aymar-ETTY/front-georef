@@ -1,0 +1,77 @@
+<div class="form-layout">
+  <div class="form-content">
+    <div class="description">
+      <div class="messageImport">
+        <h4>Instructions d'importation</h4>
+        <div>
+          <ul>
+            <li>
+              <span (click)="downloadFile()">Télécharger</span> l'exemplaire du fichier à remplir.
+            </li>
+            <li>Après modification, uploader-le sur la plateforme.</li>
+            <li>Envoyer le fichier final</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="messageImport">
+        <h4>Recommandations d'importation</h4>
+        <div>
+          <ul>
+            <li>Prenez soin de bien remplir toutes le colonnes.</li>
+            <li>Les noms des colonnes ne doivent pas être modifiés.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!file">
+      <div class="file-container">
+        <input type="file" id="file" (change)="onFileChange($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        <i class="fas fa-upload"></i>
+        <div>
+          <h3>Faites glisser et déposez le fichier ici</h3>
+          <h3>ou</h3>
+          <label for="file">Parcourir</label>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="file">
+      <div class="file-list">
+        <div class="file-icon">
+          <i class="fas fa-file-excel"></i>
+        </div>
+
+        <div class="file-info">
+          <h4 class="name">{{ file.name }}</h4>
+          <p class="size">{{ formatBytes(file?.size) }}</p>
+        </div>
+
+        <div class="delete" (click)="file = undefined">
+          <i class="fas fa-trash-alt"></i>
+        </div>
+      </div>
+
+      <!-- <ng-content></ng-content> -->
+    </ng-container>
+
+    <div class="d-flex justify-content-center">
+      <button mat-flat-button [disabled]="!file" color="primary" (click)="importRows()">
+        <i class="fas fa-upload"></i> Importer
+      </button>
+    </div>
+
+    <ng-container *ngIf="uploadValidationError">
+      <small class="errors">{{uploadValidationError}}</small>
+    </ng-container>
+  </div>
+</div>
+
+<!-- progress bar -->
+<ng-container *ngIf="uploadProgress">
+  <div class="progress">
+    <mat-progress-bar class="progress-bar" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+    <mat-icon class="cancel-upload" (click)="cancelUpload()">delete_forever</mat-icon>
+  </div>
+</ng-container>

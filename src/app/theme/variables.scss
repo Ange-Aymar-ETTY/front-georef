@@ -1,0 +1,251 @@
+:root {
+  --ion-color-primary: #00695c;
+  --ion-color-primary-rgb: 0, 105, 92;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #005c51;
+  --ion-color-primary-tint: #1a786c;
+  --ion-color-secondary: #f58220;
+  --ion-color-secondary-rgb: 245, 130, 32;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #d8721c;
+  --ion-color-secondary-tint: #f68f36;
+  --ion-color-tertiary: #ed614d;
+  --ion-color-tertiary-rgb: 237, 97, 77;
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+  --ion-color-tertiary-shade: #d15544;
+  --ion-color-tertiary-tint: #ef715f;
+  --ion-color-success: #28ba62;
+  --ion-color-success-rgb: 40, 186, 98;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #23a456;
+  --ion-color-success-tint: #3ec172;
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+  --ion-color-danger: #eb445a;
+  --ion-color-danger-rgb: 235, 68, 90;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cf3c4f;
+  --ion-color-danger-tint: #ed576b;
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 36, 40;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #808289;
+  --ion-color-medium-tint: #9d9fa6;
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 244, 244;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+  /* border */
+  --ion-color-border: #ededed;
+  --ion-color-border-rgb: 237, 237, 237;
+  --ion-color-border-contrast: #000000;
+  --ion-color-border-contrast-rgb: 0, 0, 0;
+  --ion-color-border-shade: #d1d1d1;
+  --ion-color-border-tint: #efefef;
+}
+
+$filter-primary: invert(37%) sepia(21%) saturate(715%) hue-rotate(162deg)
+  brightness(87%) contrast(91%);
+$filter-white: invert(100%) sepia(0%) saturate(0%) hue-rotate(325deg)
+  brightness(107%) contrast(103%);
+$font-size-title: 120%;
+$font-size-subtitle: 110%;
+$font-size-normal: 100%;
+$font-size-subnormal: 95%;
+@mixin vertical-center-align() {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+// Material palettes
+$sp-palette-primary: (
+  50: #e0edeb,
+  100: #b3d2ce,
+  200: #80b4ae,
+  300: #4d968d,
+  400: #268074,
+  500: #00695c,
+  600: #006154,
+  700: #00564a,
+  800: #004c41,
+  900: #003b30,
+  A100: #71ffde,
+  A200: #3effd2,
+  A400: #0bffc6,
+  A700: #00f1b9,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+$sp-palette-secondary: (
+  50: #fef0e4,
+  100: #fcdabc,
+  200: #fac190,
+  300: #f8a863,
+  400: #f79541,
+  500: #f58220,
+  600: #f47a1c,
+  700: #f26f18,
+  800: #f06513,
+  900: #ee520b,
+  A100: #ffffff,
+  A200: #ffece5,
+  A400: #ffc6b2,
+  A700: #ffb498,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+$sp-palette-tertiary: (
+  50: #fdecea,
+  100: #fad0ca,
+  200: #f6b0a6,
+  300: #f29082,
+  400: #f07968,
+  500: #ed614d,
+  600: #eb5946,
+  700: #e84f3d,
+  800: #e54534,
+  900: #e03325,
+  A100: #ffffff,
+  A200: #ffeae8,
+  A400: #ffbab5,
+  A700: #ffa29c,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+// Compsants styles
+@mixin yel-card($width, $height) {
+  height: $height;
+  width: $width;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0px 0px 3px #ededed;
+  border: 2px solid lightgrey;
+  margin-top: 3vh;
+}
+
+// Keyframes
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(-10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

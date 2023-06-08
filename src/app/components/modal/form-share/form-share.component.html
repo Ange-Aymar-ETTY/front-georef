@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <h1 mat-dialog-title>Transférer à un agent</h1>
+  <form [formGroup]="shareForm">
+    <div class="form-content">
+      <div class="input-fields">
+        <span>Directions</span>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Directions" formControlName="dr" required>
+            <mat-option *ngIf="!ListDrs">
+              <mat-progress-bar mode="buffer"></mat-progress-bar>
+            </mat-option>
+
+            <ng-container *ngIf="ListDrs">
+              <mat-option *ngFor="let item of ListDrs" [value]="item.code">{{item.code}} - {{item.libelle}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <app-error-manager [formCtrl]="shareForm.get('dr')" [validationMessage]="validationMessages.general">
+        </app-error-manager>
+      </div>
+
+      <div class="input-fields">
+        <span>Agents</span>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Agents" formControlName="agent" multiple required>
+            <mat-select-trigger>
+              {{firstValue || ''}}
+              <span *ngIf="(shareForm.get('agent').value?.length || 0) > 1" class="example-additional-selection">
+                (+{{(shareForm.get('agent').value?.length || 0) - 1}} {{shareForm.get('agent').value?.length === 2 ? 'autre' : 'autres'}})
+              </span>
+            </mat-select-trigger>
+
+            <mat-option *ngIf="!ListAgents">
+              <mat-progress-bar mode="buffer"></mat-progress-bar>
+            </mat-option>
+
+            <ng-container *ngIf="ListAgents">
+              <mat-optgroup *ngFor="let group of ListAgents" [label]="group.exp" [disabled]="group.disabled">
+                <mat-option *ngFor="let agent of group.agents" [value]="agent">
+                  {{agent.nom + ' ' + agent.prenom | uppercase }}
+                </mat-option>
+              </mat-optgroup>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <app-error-manager [formCtrl]="shareForm.get('agent')" [validationMessage]="validationMessages.general">
+        </app-error-manager>
+      </div>
+
+      <mat-error *ngIf="messageError">{{messageError}}</mat-error>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>Annuler</button>
+      <button mat-button [disabled]="!shareForm.valid" (click)="onShare()">Confirmer</button>
+    </div>
+  </form>
+</div>
+
+<!-- <h1 mat-dialog-title>Dialog with elements</h1>
+<div mat-dialog-content>This dialog showcases the title, close, content and actions elements.</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Annuler</button>
+  <button mat-button [mat-dialog-close]="data">Confirmer</button>
+</div> -->

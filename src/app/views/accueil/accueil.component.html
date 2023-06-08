@@ -1,0 +1,51 @@
+<div class="base-container">
+  <!-- Navbar -->
+  <mat-toolbar class="main-nav">
+    <div class="nav-logo" [ngClass]="{'large': !isSidenavToggled}">
+      <!-- <img src="assets/SVG/logoCIE.svg" alt=""> -->
+      <span>Eazy Map</span>
+    </div>
+
+    <button (click)="this.isSidenavToggled = !this.isSidenavToggled" mat-icon-button class="button-toggle">
+      <mat-icon> {{ isSidenavToggled ? 'menu' : 'menu_open' }}</mat-icon>
+    </button>
+
+    <div class="nav-profil">
+      <span>{{ username | uppercase }}</span>
+      <img src="assets/images/programmer.png" alt="avatar">
+    </div>
+  </mat-toolbar>
+  <!-- Navbar End -->
+
+  <!-- Main container -->
+  <div class="main-content">
+    <!-- Sidenav -->
+    <div id="sidenav" [ngClass]="{'large': !isSidenavToggled}">
+      <div class="menu-list-option">
+        <a class="link-option" href="/accueil"
+          [ngClass]="{'large-mode':!isSidenavToggled, 'active': (route.url === '/accueil')}">
+          <i class="fas fa-map-marker-alt"></i>
+          <span class='text-menu' *ngIf="!isSidenavToggled">Carte</span>
+        </a>
+
+        <a class="link-option" href="/export"
+          [ngClass]="{'large-mode':!isSidenavToggled, 'active': (route.url === '/export')}">
+          <i class="fas fa-file-export"></i>
+          <span class='text-menu' *ngIf="!isSidenavToggled">Importer un fichier</span>
+        </a>
+
+        <a class="link-option" href="/utilisateur" *appShowAuthedSuper="true"
+          [ngClass]="{'large-mode':!isSidenavToggled, 'active': (route.url === '/utilisateur')}">
+          <i class="fa fa-user"></i>
+          <span class='text-menu' *ngIf="!isSidenavToggled">Utilisateur</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div id="body-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <!-- Main container End -->
+</div>

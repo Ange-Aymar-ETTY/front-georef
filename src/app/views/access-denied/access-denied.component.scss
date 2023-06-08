@@ -1,0 +1,24 @@
+.full-page-container {
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 90% 90%;
+}
+
+.login-title {
+  margin: 0 auto;
+  color: #000;
+  h1 {
+    font-size: 500%;
+  }
+
+  small {
+    font-size: 18px;
+  }
+}
+
+.btn-back {
+  background: orange;
+  box-shadow: 0px 0px 6px #ababab;
+  font-size: 100%;
+}

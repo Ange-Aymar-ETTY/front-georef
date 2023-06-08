@@ -1,0 +1,93 @@
+@import "../../../styles.scss";
+
+@mixin part($width) {
+  height: 100%;
+  width: $width;
+  display: flex;
+  align-items: center;
+}
+
+@mixin tiles($w, $h) {
+  height: $h;
+  width: $w;
+  border-radius: 5px;
+  border: 1px solid #dedede;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    font-size: 90%;
+    color: #444;
+  }
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 3px #cdcdcd;
+  }
+
+  &.active {
+    border: 1px solid $orange-2;
+    background: $color-degrade-orange;
+
+    span {
+      color: #fff;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.btn-head {
+  height: 10%;
+  padding: 5px;
+  display: flex;
+  gap: 20px;
+
+  button {
+    @include tiles(fit-content, 40px);
+  }
+}
+
+.form-container {
+  height: 90%;
+  animation: yel-fade-up 500ms;
+
+  &.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .form-header {
+    padding: 20px;
+
+    span {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  }
+
+  .form-content {
+    width: 40%;
+    max-height: 80vh;
+    overflow: auto;
+
+    .btn-container {
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+
+      button {
+        margin: auto;
+        border-radius: 10px;
+        width: 40%;
+        font-size: 16px;
+      }
+    }
+  }
+}

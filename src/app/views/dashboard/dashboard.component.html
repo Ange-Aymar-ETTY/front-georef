@@ -1,0 +1,187 @@
+<div class="carte-container" [ngClass]="{'fullscreen': isFullScreen}">
+  <div id="map-container">
+    <div id="map"></div>
+
+    <!-- Button on Map -->
+    <ng-container>
+      <div class="btn-group-map left">
+        <div class="btn-group-map-container">
+          <ng-select2
+            [placeholder]="'DR...'"
+            [width]="160"
+            [data]="drList | async"
+            (valueChanged)="onSelectDr($event)">
+          </ng-select2>
+
+          <div class="filter-container" *ngIf="allListMarkerRefGroup">
+            <span></span>
+            <div class="filter-content">
+              <ng-container *ngFor="let item of allListMarkerRefGroup">
+                <button [title]="'Filter sur ' + item.type" type="button" class="btn" [ngClass]="{'btn-light': item.isCheked, 'btn-dark': !item.isCheked}" (click)="showType(item)">
+                  <img [src]="iconList[item.type].image">
+                </button>
+              </ng-container>
+              <button type="button" class="btn" [ngClass]="isAllChecked ? 'btn-light':  'btn-dark'" (click)="showAll()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group-map right">
+        <div class="btn-group-map-container">
+          <button title="Afficher les délimitations" type="button" class="btn btn-dark" (click)="filtercollapse()">
+            <i class="fas fa-draw-polygon"></i>
+          </button>
+
+          <button title="Rechercher un branchement" type="button" class="btn btn-dark" (click)="searchcollapse()">
+            <i class="fas fa-search"></i>
+          </button>
+
+          <button title="Recentrer la carte" type="button" class="btn btn-dark" (click)="reinitZoomMap()">
+            <i class="fas fa-compass"></i>
+          </button>
+
+          <button title="Changer de modèle de carte" type="button" class="btn btn-dark" (click)="streeView()">
+            <i class="fas fa-map"></i>
+          </button>
+
+          <button title="Mode plein écran" type="button" class="btn btn-dark"
+            (click)="this.isFullScreen = !this.isFullScreen">
+            <i class="fas " [ngClass]="{'fa-compress': isFullScreen, 'fa-expand': !isFullScreen }"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="btn-group-map left-middle" *ngIf="drawsGeoJson.length > 0">
+        <button title="Afficher les délimitations" type="button" class="btn btn-dark" (click)="meterInDraw()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- Forms -->
+    <ng-container>
+      <!-- Form polygon -->
+      <div class="sidenav filter" [ngClass]="isSidebarCollaspse ? 'show' : ''">
+        <!-- Header -->
+        <div class="header">
+          <span class="label">Polygones</span>
+          <span class="close" (click)="filtercollapse()">&times;</span>
+        </div>
+
+        <!-- Form -->
+        <div class="filter-input" [formGroup]='filterForm'>
+          <!-- Exploitation -->
+          <mat-form-field appearance="outline">
+            <mat-label>Exploitation</mat-label>
+            <mat-select formControlName="exploitation">
+              <mat-option value="Toutes"> Toutes </mat-option>
+              <mat-option *ngIf="!itemListExp">
+                <mat-progress-bar mode="buffer"></mat-progress-bar>
+              </mat-option>
+
+              <ng-container *ngIf="itemListExp">
+                <mat-option *ngFor="let item of itemListExp" [value]="item.code">
+                  {{item.libelle | uppercase}}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Zone or Tournee -->
+          <mat-form-field appearance="outline">
+            <mat-label>Libelle</mat-label>
+            <mat-select formControlName="level">
+              <mat-option *ngFor="let item of levels" [value]="item.name">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Code -->
+          <mat-form-field appearance="outline">
+            <mat-label>{{lastValueLevel}}</mat-label>
+            <input type="text" matInput formControlName="code" [matAutocomplete]="autoCode">
+            <mat-hint class="hint" *ngIf="code.errors && code.errors.validZone">
+              Aucune {{lastValueLevel | lowercase}}
+            </mat-hint>
+
+            <!-- Auto complete -->
+            <mat-autocomplete #autoCode="matAutocomplete">
+              <mat-option *ngIf="!filterValue">
+                <mat-progress-bar mode="buffer"></mat-progress-bar>
+              </mat-option>
+
+              <ng-container *ngIf="filterValue">
+                <mat-option *ngFor="let item of filterValue" [ngClass]="{'hidden': item.selected}">
+                  <div (click)="optionClicked($event, item)">{{ item.code }}</div>
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <div class="btn-filter">
+            <button [disabled]='!filterForm.valid' mat-raised-button (click)='searchFilter()'>
+              Valider
+            </button>
+          </div>
+        </div>
+
+        <!-- Options select -->
+        <div class="list-options">
+          <ng-container *ngIf="itemSelected.length > 0">
+            <mat-label>Elément(s) sélectionné(s) : <b>{{itemSelected.length}}/{{numItemSelect}}</b></mat-label>
+            <div class="list-scroll">
+              <div class="list-elt" *ngFor="let item of itemSelected">
+                <span class="checkbox-container">
+                  <mat-checkbox (change)="showMarkers($event, item)" [(ngModel)]="item.checked">
+                  </mat-checkbox>{{item.code}}
+                </span>
+                <span class='btn-container'>
+                  <!-- <i class='fa fa-search' *ngIf="item.isLoaded" (click)='searchcollapse(true, item)'></i> -->
+                  <i class='fa fa-times-circle' (click)='closeOption(item)'></i>
+                </span>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="itemSelected.length == 0">
+            <p class="text-center">Aucune {{lastValueLevel | lowercase}} sélectionnée</p>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Form search -->
+      <div class="sidenav search" [ngClass]="isSidebarCollaspseSearch ? 'show' : ''">
+        <!-- Header -->
+        <div class="header">
+          <span class="label">Recherche</span>
+          <span class="close" (click)="searchcollapse()">&times;</span>
+        </div>
+
+        <div class="filter-input" [formGroup]='searchForm'>
+          <!-- lastValueLevel de la recherche -->
+          <mat-form-field appearance="outline">
+            <mat-label>Rechercher par</mat-label>
+            <mat-select formControlName="column">
+              <mat-option *ngFor="let item of searchItem" [value]="item">{{item.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Valeur de recherche -->
+          <mat-form-field appearance="outline">
+            <mat-label>{{columnsearch.value.title}}</mat-label>
+            <input matInput formControlName="value" maxlength="{{columnsearch.value.maxLength}}">
+            <mat-hint *ngIf="columnsearch.value" align="end">
+              {{valuesearch.value.length}} / {{columnsearch.value.maxLength}}
+            </mat-hint>
+          </mat-form-field>
+
+          <div class="btn-filter">
+            <button [disabled]='!searchForm.valid' mat-raised-button (click)='searchMeter()'>
+              <i class='fa fa-search'></i> Rechercher
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

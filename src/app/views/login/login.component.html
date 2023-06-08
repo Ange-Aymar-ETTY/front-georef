@@ -1,0 +1,22 @@
+<div class="container-fluid full-page-container">
+    <div class="main">
+        <p class="sign" align="center">Connexion</p>
+        <form [formGroup]="authForm" (ngSubmit)="seConnecter()" class="text-center">
+            <input class="input-filed" type="text" align="center" placeholder="Email" formControlName="login">
+
+            <input #password class="input-filed" type="password" align="center" placeholder="Mot de passe" formControlName="password">
+
+            <div class="showPassword">
+                <input type="checkbox" (click)="showPassword()"> Afficher le mot de passe
+            </div>
+
+            <button [disabled]="!authForm.valid" class="text-white mt-2 btn-connect" type="submit">
+                <i class="fas fa-sign-in-alt"></i> Se connecter
+            </button>
+
+            <div class="pt-2 message-error" *ngIf="errorMessage">
+                <p>{{ errorMessage }}</p>
+            </div>
+        </form>
+    </div>
+</div>
